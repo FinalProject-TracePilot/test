@@ -22,10 +22,10 @@ jobs:
         
     - name: Build and push frontend image
       run: |
-        docker build -t jadamaneddine/frontend -f frontend/dockerfile.react frontend/
+        docker build -t jadamaneddine/frontend -f /dockerfile.react frontend/
         docker push jadamaneddine/frontend
     
     - name: Build and push backend image
       run: |
-        docker build -t jadamaneddine/backend -f backend/dockerfile.nodejs backend/
+        docker build -t jadamaneddine/backend -f /dockerfile.nodejs backend/
         docker push jadamaneddine/backend
