@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: jadamaneddine/frontend:2.0.40
+          image: waelganem/frontend:2.0.2
           ports:
             - containerPort: 80
 
@@ -38,7 +38,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: jadamaneddine/backend:2.0.40
+          image: waelganem/backend:2.0.2
           ports:
             - containerPort: 8000
 
