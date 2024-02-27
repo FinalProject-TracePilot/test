@@ -72,6 +72,6 @@ spec:
   ports:
     - name: backend
       protocol: TCP
-      port: 8080
+      port: 8000
       targetPort: 8000
   type: NodePort
