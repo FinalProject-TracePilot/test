@@ -1,77 +1,74 @@
-# Frontend Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend-app
+  name: node-mongo-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: frontend
+      app: node-mongo
   template:
     metadata:
       labels:
-        app: frontend
+        app: node-mongo
     spec:
       containers:
-        - name: frontend
-          image: weamfayad18/frontend:2.0.57
+        - name: node-mongo-container
+          image: weamfayad18/backend:2.0.58  # Adjust with your Docker image for the backend
           ports:
-            - containerPort: 8080
-
+            - containerPort: 8000  # Port for Node.js app
+            - containerPort: 27017 # Port for MongoDB
+          volumeMounts:
+            - name: data-volume
+              mountPath: /data/db
+      volumes:
+        - name: data-volume
+          emptyDir: {}
 ---
-
-# Backend Deployment
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: backend-app
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: backend
-  template:
-    metadata:
-      labels:
-        app: backend
-    spec:
-      containers:
-        - name: backend
-          image: weamfayad18/backend:2.0.57
-          ports:
-            - containerPort: 8000
-
----
-
-# Service for Frontend
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend-service
+  name: node-mongo-service
 spec:
-  selector:
-    app: frontend
-  ports:
-    - name: http
-      protocol: TCP
-      port: 8080
-      targetPort: 80
   type: NodePort
-
----
-
-# Service for Backend
-apiVersion: v1
-kind: Service
-metadata:
-  name: backend-service
-spec:
   selector:
-    app: backend
+    app: node-mongo
   ports:
-    - name: backend
-      protocol: TCP
-      port: 8000
+    - port: 8000
       targetPort: 8000
+      protocol: TCP
+      name: http
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-frontend-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: react-frontend
+  template:
+    metadata:
+      labels:
+        app: react-frontend
+    spec:
+      containers:
+        - name: nginx-container
+          image: weamfayad18/frontend:2.0.58  # Adjust with your Docker image for the frontend
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: react-frontend-service
+spec:
   type: NodePort
+  selector:
+    app: react-frontend
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
