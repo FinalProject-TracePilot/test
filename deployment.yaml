@@ -13,17 +13,19 @@ spec:
         app: node-mongo
     spec:
       containers:
-        - name: node-mongo-container
-          image: weamfayad18/backend:2.0.58  # Adjust with your Docker image for the backend
-          ports:
-            - containerPort: 8000  # Port for Node.js app
-            - containerPort: 27017 # Port for MongoDB
-          volumeMounts:
-            - name: data-volume
-              mountPath: /data/db
-      volumes:
+      - name: node-mongo-container
+        image: weamfayad18/backend:2.0.58  # Make sure this image is accessible
+        ports:
+        - containerPort: 8000  # Port for Node.js app
+        - containerPort: 27017 # Port for MongoDB
+        volumeMounts:
         - name: data-volume
-          emptyDir: {}
+          mountPath: /data/db
+      volumes:
+      - name: data-volume
+        emptyDir: {}
+      imagePullSecrets:  # Add this line
+      - name: my-docker-credentials  # Reference the created secret here
 ---
 apiVersion: v1
 kind: Service
@@ -34,10 +36,10 @@ spec:
   selector:
     app: node-mongo
   ports:
-    - port: 8000
-      targetPort: 8000
-      protocol: TCP
-      name: http
+  - port: 8000
+    targetPort: 8000
+    protocol: TCP
+    name: http
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -54,10 +56,12 @@ spec:
         app: react-frontend
     spec:
       containers:
-        - name: nginx-container
-          image: weamfayad18/frontend:2.0.58  # Adjust with your Docker image for the frontend
-          ports:
-            - containerPort: 80
+      - name: nginx-container
+        image: weamfayad18/frontend:2.0.58  # Make sure this image is accessible
+        ports:
+        - containerPort: 80
+      imagePullSecrets:  # Add this line
+      - name: my-docker-credentials  # Reference the created secret here
 ---
 apiVersion: v1
 kind: Service
@@ -68,7 +72,7 @@ spec:
   selector:
     app: react-frontend
   ports:
-    - port: 80
-      targetPort: 80
-      protocol: TCP
-      name: http
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
