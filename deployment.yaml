@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: weamfayad18/frontend:2.0.16
+          image: jadamaneddine/frontend:2.0.51
           ports:
             - containerPort: 80
 
@@ -38,7 +38,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: weamfayad18/backend:2.0.16
+          image: jadamaneddine/backend:2.0.51
           ports:
             - containerPort: 8000
 
