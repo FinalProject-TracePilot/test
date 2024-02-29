@@ -15,9 +15,12 @@ spec:
       containers:
       - name: node-mongo-container
         image: weamfayad18/backend:2.0.58  # Make sure this image is accessible
-        ports:
-        - containerPort: 8000  # Port for Node.js app
-        - containerPort: 27017 # Port for MongoDB
+      ports:
+      - port: 8000
+        targetPort: 8000
+        nodePort: 8000
+        protocol: TCP
+        name: http # Port for MongoDB
         volumeMounts:
         - name: data-volume
           mountPath: /data/db
