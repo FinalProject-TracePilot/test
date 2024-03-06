@@ -10,6 +10,7 @@ import PawsLoader from "../../components/common/PawsLoader";
 function Home() {
   return (
     <div>
+      <h1>Welcome to My Website</h1>
       <PawsLoader />
       <Nav />
       <Header />
