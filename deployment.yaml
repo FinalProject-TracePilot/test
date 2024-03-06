@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: jadamaneddine/frontend:2.0.51
+          image: jadamaneddine/frontend:2.0.69
           ports:
             - containerPort: 80
 
@@ -40,7 +40,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: jadamaneddine/backend:2.0.51
+          image: jadamaneddine/backend:2.0.69
           ports:
             - containerPort: 8000
 
